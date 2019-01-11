@@ -30,13 +30,8 @@ public class MylogoutSuccessHandler implements LogoutSuccessHandler{
 			}
 			
 		}
-		
-		Authentication authentication2 = (Authentication) request.getAttribute("authentication");
-		
-		System.err.println("注销成功处理"+JSONObject.toJSONString(authentication));
-		HttpSession s = request.getSession();
+		//重定向到客户端
 		response.sendRedirect(request.getParameter("redirect_uri")==null? "/":request.getParameter("redirect_uri"));
-		//new ForwardLogoutSuccessHandler(request.getParameter("redirect_uri")).onLogoutSuccess(request, response, authentication);
 	}
 
 }

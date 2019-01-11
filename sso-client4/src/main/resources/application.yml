@@ -1,4 +1,4 @@
-auth-server: http://127.0.0.1:8080 # sso-server地址
+auth-server: http://sso.com:8080 # sso-server地址
 server:
   context-path: /c4
   port: 8084

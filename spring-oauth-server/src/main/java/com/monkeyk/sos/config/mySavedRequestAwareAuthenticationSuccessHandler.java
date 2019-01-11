@@ -72,6 +72,11 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
  * @author Luke Taylor
  * @since 3.0
  */
+/**
+ * 登陆成功后写入ssocookie尝试
+ * @author Administrator
+ *
+ */
 public class mySavedRequestAwareAuthenticationSuccessHandler extends
 	SavedRequestAwareAuthenticationSuccessHandler {
 	protected final Log logger = LogFactory.getLog(this.getClass());
@@ -82,8 +87,10 @@ public class mySavedRequestAwareAuthenticationSuccessHandler extends
 	public void onAuthenticationSuccess(HttpServletRequest request,
 			HttpServletResponse response, Authentication authentication)
 			throws ServletException, IOException {
-		
+
 		UserDetails userDetails = SpringUtil.getBean(UserDetailsService.class).loadUserByUsername(authentication.getName());
+		response.addCookie(new Cookie(OauthConstants.SSO_ACCESS_TOKEN_NAME, SpringUtil.getBean(JwtTokenUtil.class).generateToken(userDetails)));
+
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
 		if (savedRequest == null) {
 			super.onAuthenticationSuccess(request, response, authentication);
@@ -106,7 +113,6 @@ public class mySavedRequestAwareAuthenticationSuccessHandler extends
 		String targetUrl = savedRequest.getRedirectUrl();
 		logger.debug("Redirecting to DefaultSavedRequest Url: " + targetUrl);
 		
-		response.addCookie(new Cookie(OauthConstants.SSO_ACCESS_TOKEN_NAME, SpringUtil.getBean(JwtTokenUtil.class).generateToken(userDetails)));
 		
 		getRedirectStrategy().sendRedirect(request, response, targetUrl);
 	

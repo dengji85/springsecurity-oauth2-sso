@@ -61,14 +61,13 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers("/oauth/**").permitAll()
                 .antMatchers("/login*").permitAll()
                 .antMatchers("/exit*").permitAll()
-                //.antMatchers("/tt/token").permitAll()
                 .antMatchers("/user/**").hasAnyRole("ADMIN")
-                .antMatchers("/oauth/token_key").permitAll()
+               // .antMatchers("/oauth/token_key").permitAll()
                 .antMatchers(HttpMethod.GET, "/login*").anonymous()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-              .successHandler(new mySavedRequestAwareAuthenticationSuccessHandler())
+                .successHandler(new mySavedRequestAwareAuthenticationSuccessHandler())
                 .loginPage("/login")
                 .loginProcessingUrl("/signin")
                 .failureUrl("/login?error=1")
@@ -84,7 +83,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.authenticationProvider(authenticationProvider());
        
        // http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-       // http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
 

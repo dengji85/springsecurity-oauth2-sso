@@ -49,7 +49,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 			 String json =ss.postForObject(url, paramMap, String.class);
  
 			if(null == json) {
-				 request.getRequestDispatcher("/logout").forward(request, response);
+				SecurityContextHolder.getContext().setAuthentication(null);
+				request.getSession().invalidate();
+				chain.doFilter(request, response);
+				 
+				// request.getRequestDispatcher("/login").forward(request, response);
 			 }else {
 				 chain.doFilter(request, response);
 			 }

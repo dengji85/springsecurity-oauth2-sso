@@ -20,7 +20,7 @@
 </h2>
 
 <div>
-    Logged: <span class="text-success">${SPRING_SECURITY_CONTEXT.authentication.principal.username}</span>
+    Logged: <span class="text-success">${SPRING_SECURITY_CONTEXT.authentication.principal}</span>
     <form action="${contextPath}/signout" method="post">
         <tags:csrf/>
         <button class="btn btn-default" type="submit">Logout</button>

@@ -49,7 +49,10 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 			// String json = SpringUtil.getBean(OAuth2RestTemplate.class).postForObject(url, paramMap, String.class);
 			 String json =ss.postForObject(url, paramMap, String.class);
  			 if(null == json) {
-				 request.getRequestDispatcher("/logout").forward(request, response);
+ 				SecurityContextHolder.getContext().setAuthentication(null);
+ 				request.getSession().invalidate();
+				// request.getRequestDispatcher("/login").forward(request, response);
+				 chain.doFilter(request, response);
 			 }else {
 				 chain.doFilter(request, response);
 			 }

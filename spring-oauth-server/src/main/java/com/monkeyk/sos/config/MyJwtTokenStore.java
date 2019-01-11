@@ -1,11 +1,8 @@
 package com.monkeyk.sos.config;
 
-import java.util.Enumeration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import org.springframework.security.core.Authentication;
@@ -19,12 +16,13 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
 import com.alibaba.fastjson.JSONObject;
 import com.monkeyk.sos.SpringUtil;
-
+/**
+ * token 和ssotoken对应
+ * @author Administrator
+ *
+ */
 public class MyJwtTokenStore extends JwtTokenStore{
 	public final static Map<String , Object> map = new ConcurrentHashMap<>();
 
@@ -45,6 +43,7 @@ public class MyJwtTokenStore extends JwtTokenStore{
 		String claims = a.getClaims();
 		JSONObject claimsJO = JSONObject.parseObject(claims);
 		System.err.println(claimsJO.getString("user_name"));
+		
 		map.put(token.getValue(), claimsJO.getString("sso"));
 
 	}

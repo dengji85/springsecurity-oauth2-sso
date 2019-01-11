@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.Map.Entry;
 
 /**
  * Token过滤器
@@ -51,6 +52,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
 		}
 		MyJwtTokenStore.map.get("");
+		for (Entry<String, Object> t : MyJwtTokenStore.map.entrySet()) {
+			System.err.println("key: "+t.getKey()+":");
+			System.err.println(t.getValue());
+			
+		}
 		String authToken = CookieUtil.getCookieByName(request, OauthConstants.SSO_ACCESS_TOKEN_NAME);
 		if (authToken != null) {
 			String username = jwtTokenUtil.getUsernameFromToken(authToken);
@@ -65,6 +71,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 				}
 			}
 		}
+		System.out.println("sessionid:"+request.getSession(false));
 		chain.doFilter(request, response);
 	}
 

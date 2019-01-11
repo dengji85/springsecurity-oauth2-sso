@@ -71,7 +71,7 @@ public class SsoClient4Application extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 		http.authorizeRequests().antMatchers("/login*").permitAll().anyRequest().authenticated();
 		http.logout().logoutUrl("/logout").deleteCookies("JSESSIONID")
-				.logoutSuccessUrl("http://127.0.0.1:8080/signout?redirect_uri=http://127.0.0.1:8083/c3");
+				.logoutSuccessUrl("http://sso.com:8080/signout?redirect_uri=http://c4.com:8084/c4");
 		http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
 	}
